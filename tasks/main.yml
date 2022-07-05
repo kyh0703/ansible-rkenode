@@ -4,7 +4,6 @@
     name: openssh
     state: latest
 
-# Dependencies K8s Package
 - name: Install ntp service
   include: ntp.yml
 
