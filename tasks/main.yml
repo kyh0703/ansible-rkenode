@@ -1,32 +1,23 @@
 ---
-- name: Update openssh
-  yum:
-    name: openssh
-    state: latest
-
-- name: Install ntp service
-  include: ntp.yml
+- name: NTP service
+  include: 'ntp/{{ linux_name }}.yml'
 
 - name: Disabled firewalld
-  ansible.builtin.service:
-    name: firewalld
-    state: stopped
-    enabled: yes
-
-# - name: firewalld
-#   include: firewalld.yml
+  include: 'firewalld/{{ linux_name }}.yml'
 
 - name: Dependencies k8s package
-  include: k8s.yml
+  include: 'k8s/{{ linux_name }}.yml'
 
-- name: Install docker
+- name: install docker
   include: docker.yml
 
-- name: Dependencies ceph storage
-  include: ceph.yml
+- name: dependencies ceph storage
+  include: 'ceph/{{ linux_name }}.yml'
 
-- name: Dependencies rke option
+- name: dependencies rke option
+  become: true
   include: rke.yml
 
 - name: Install helm
+  become: true
   include: helm.yml
